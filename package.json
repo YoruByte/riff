@@ -14,7 +14,10 @@
     "release:major": "npm version major && git push --follow-tags"
   },
   "keywords": [],
-  "author": "rootscripts",
+  "author": {
+    "name": "YoruByte",
+    "email": "rahatop536@gmail.com"
+  },
   "license": "MIT",
   "description": "made for humans, Riff - audio player.",
   "devDependencies": {
