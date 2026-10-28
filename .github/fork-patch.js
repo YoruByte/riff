@@ -2,6 +2,7 @@ const fs = require("fs");
 const p = JSON.parse(fs.readFileSync("package.json", "utf8"));
 p.author = { name: "YoruByte", email: "rahatop536@gmail.com" };
 p.build.linux.target = [{ target: "pacman", arch: ["x64"] }];
+p.build.pacman = { depends: ['c-ares','ffmpeg','gtk3','libevent','libvpx','libxslt','libxss','minizip','nss','re2','snappy','libnotify','libappindicator-gtk3'] };
 for (const x of p.build.publish || []) x.owner = "YoruByte";
 fs.writeFileSync("package.json", JSON.stringify(p, null, 2) + "\n");
 const f = ".github/workflows/release.yml";
