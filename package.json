@@ -110,7 +110,7 @@
     "publish": [
       {
         "provider": "github",
-        "owner": "rootscripts",
+        "owner": "YoruByte",
         "repo": "riff",
         "releaseType": "release"
       }
