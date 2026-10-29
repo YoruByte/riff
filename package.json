@@ -14,7 +14,10 @@
     "release:major": "npm version major && git push --follow-tags"
   },
   "keywords": [],
-  "author": "rootscripts",
+  "author": {
+    "name": "YoruByte",
+    "email": "rahatop536@gmail.com"
+  },
   "license": "MIT",
   "description": "made for humans, Riff - audio player.",
   "devDependencies": {
@@ -69,7 +72,7 @@
     "linux": {
       "target": [
         {
-          "target": "AppImage",
+          "target": "pacman",
           "arch": [
             "x64"
           ]
@@ -104,10 +107,27 @@
     "publish": [
       {
         "provider": "github",
-        "owner": "rootscripts",
+        "owner": "YoruByte",
         "repo": "riff",
         "releaseType": "release"
       }
-    ]
+    ],
+    "pacman": {
+      "depends": [
+        "c-ares",
+        "ffmpeg",
+        "gtk3",
+        "libevent",
+        "libvpx",
+        "libxslt",
+        "libxss",
+        "minizip",
+        "nss",
+        "re2",
+        "snappy",
+        "libnotify",
+        "libappindicator-gtk3"
+      ]
+    }
   }
 }
