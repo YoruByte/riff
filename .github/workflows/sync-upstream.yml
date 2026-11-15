@@ -1,0 +1,37 @@
+name: Sync upstream and build
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.SYNC_TOKEN }}
+          fetch-depth: 0
+      - name: Sync and tag
+        run: |
+          git config user.name "YoruByte"
+          git config user.email "rahatop536@gmail.com"
+          git remote add upstream https://github.com/rootscripts/riff.git
+          git fetch upstream main --no-tags
+          UP=$(git rev-parse upstream/main)
+          if [ "$UP" = "$(cat .upstream-sha 2>/dev/null)" ]; then echo "No new upstream changes"; exit 0; fi
+          cp .github/fork-patch.js /tmp/fork-patch.js
+          cp .github/workflows/sync-upstream.yml /tmp/sync-upstream.yml
+          git checkout -B synced upstream/main
+          cp /tmp/fork-patch.js .github/fork-patch.js
+          cp /tmp/sync-upstream.yml .github/workflows/sync-upstream.yml
+          node .github/fork-patch.js
+          echo "$UP" > .upstream-sha
+          VER=$(jq -r .version package.json)
+          TAG="v${VER%%-*}-u${UP:0:7}"
+          git add -A
+          git commit -m "Sync upstream $UP and apply fork patch"
+          git push --force origin synced:main
+          git tag "$TAG"
+          git push origin "$TAG"
